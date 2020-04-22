@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-3">
+      <h2>User info</h2>
+      <%= render 'users/profile', user: current_user %>
+      <!--メモ　右側の指定に注意。そこを間違えるとエラーが発生して表示されない -->
+
+      <h2>New book</h2>
+      <%= render 'books/newform', book: @book %>
+    </div>
+
+    <% if @books.nil? %>
+    <div class="col-xs-9">
+      <h2>Search Users</h2>
+      <!--users一覧 -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>image</th>
+            <th>name</th>
+            <th>follow</th>
+            <th>follower</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @users.each do |user| %>
+          <tr>
+            <td><%= attachment_image_tag(user, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg") %></td>
+            <td><%= user.name%></td>
+            <th><%= user.followings.count %></th>
+            <th><%= user.followers.count %></th>
+            
+            <td><% if current_user != user %>
+              <% if user.followed_by?(current_user) %>
+              <p><%=link_to "フォロー中", user_relationships_path(user.id), method: :delete, class: "btn btn-success col-xs-6" %></p>
+              <% else %>
+              <p><%=link_to "フォロー", user_relationships_path(user.id), method: :post, class: "btn btn-primary col-xs-6" %></p>
+              <% end %>
+              <% end %></td>
+              <td><%= link_to "Show", user, class: "user_#{user.id}" %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <!--users一覧 -->
+      </div>
+      <% end %>
+
+      <% if @users.nil? %>
+      <div class="col-xs-9">
+        <h2>Search Books</h2>
+        <!--books一覧 -->
+        <table class="table table-hover table-inverse">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Title</th>
+              <th>Opinion</th>
+              <th></th>
+              <th></th>
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @books.each do |book| %>
+            <tr>
+              <td>
+                <%= link_to(book.user) do %>
+                <%= attachment_image_tag(book.user, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg") %>
+                <% end %>
+              </td>
+              <td><%= link_to book.title, book, class: "book_#{book.id}" %></td>
+              <td><%= book.body %></td>
+
+              <!--いいね機能-->
+              <td>
+                <% if book.favorited_by?(current_user) %>
+                <%= link_to book_favorites_path(book), method: :delete do %>
+                <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+                <%= book.favorites.count %>
+                <% end %>
+                <% else %>
+                <%= link_to book_favorites_path(book), method: :post do %>
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                <%= book.favorites.count %>
+                <% end %>
+                <% end %>
+              </td>
+              <!--いいね機能-->
+
+              <!--コメント数表示機能-->
+              <td>
+                <%= link_to "#{book.book_comments.count} コメント", book_path(book.id) %>
+              </td>
+              <!--コメント数表示機能-->
+
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <!--books一覧 -->
+
+
+      </div>
+      <% end %>
+    </div>
+  </div>

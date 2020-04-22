@@ -1,0 +1,24 @@
+
+<!--コメント表示機能-->
+<div class="row">
+  <div class="col-sm-12">
+    <ol>
+      <% book.book_comments.each do |book_comment| %>
+      <div id="comments_<%= book_comment.id %>">
+      <li>
+        <%= link_to "#{book_comment.user.name}",user_path(book_comment.user_id)%>
+        <span><%= book_comment.created_at.strftime('%Y/%m/%d %X') %></span>
+        <span><% if book_comment.user == current_user %>
+          
+        <%= render 'book_comments/book_destroy', book_comment: book_comment %>
+      
+        <% end %><span>
+        <div><%= book_comment.comment %></div><br>
+      </li>
+      </div>
+      <% end %>
+    </ol>
+  </div>
+</div>
+
+<!--コメント表示機能-->
