@@ -1,0 +1,2 @@
+$("#chat_<%= @room.id %>").html("<%= j(render 'rooms/chat',  messages: @messages ) %>")
+$('.form-text-field').val('')
