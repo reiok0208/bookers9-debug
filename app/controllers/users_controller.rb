@@ -8,6 +8,27 @@ class UsersController < ApplicationController
   	@user = User.find(params[:id])
   	@books = @user.books
   	@book = Book.new #new bookの新規投稿で必要（保存処理はbookコントローラー側で実施）
+    #チャット記述
+    @currentUserEntry = UserRoom.where(user_id: current_user.id) #ログイン中のユーザーidをUserRoomDBから探す
+    @userEntry = UserRoom.where(user_id: @user.id) #現在のページのユーザーidをUserRoomDBから探す
+    unless @user.id == current_user.id #もしログインユーザーidと現在のページのユーザーidが違うidであれば
+      @currentUserEntry.each do |cu|
+        @userEntry.each do |u|
+          if cu.room_id == u.room_id then
+            @isRoom = true
+            @roomId = cu.room_id
+          end
+        end
+      end
+      if @isRoom
+        #True
+      else
+        #False
+        @room = Room.new
+        @entry = UserRoom.new
+      end
+    end
+    #チャット記述
   end
 
   def index

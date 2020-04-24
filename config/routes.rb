@@ -9,11 +9,13 @@ Rails.application.routes.draw do
     get :followers, on: :member
   end
 
-
   resources :books do
     resource :favorites, only: [:create, :destroy]
     resource :book_comments, only: [:create, :destroy]
   end
+
+  resources :chats, only: [:create]
+  resources :rooms, only: [:create,:show]
   
   root 'home#top'
   get 'home/about'

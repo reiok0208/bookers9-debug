@@ -1,0 +1,35 @@
+// Place all the styles related to the rooms controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.chat-box {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 20px;
+
+}
+.chat-face {
+    float: left;
+    margin-right: -120px;
+}
+.chat-face img {
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 4px #ddd;
+}
+
+.chat-hukidashi {
+    display: inline-block;
+    padding: 15px 20px;
+    margin-left: 120px;
+    margin-top: 30px;
+    border-radius: 10px;
+    position: relative;
+    background-color: #D9F0FF;
+}
+.chat-hukidashi p {
+    margin-bottom: 0px;
+}
